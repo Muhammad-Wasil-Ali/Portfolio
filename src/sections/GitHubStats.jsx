@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "../hooks/useInView";
 
@@ -7,6 +7,11 @@ const GitHubStats = () => {
     threshold: 0.3,
     triggerOnce: true,
   });
+  const [failed, setFailed] = useState({});
+
+  const handleImgError = (key) => {
+    setFailed((s) => ({ ...s, [key]: true }));
+  };
 
   return (
     <section
@@ -41,29 +46,77 @@ const GitHubStats = () => {
         >
           {/* Stats card 1 */}
           <div className="glass-effect p-6 rounded-xl flex justify-center overflow-x-auto">
-            <img
-              src="https://github-readme-stats.vercel.app/api?username=Muhammad-Wasil-Ali&show_icons=true&theme=dark&hide_border=true"
-              alt="GitHub Stats"
-              className="w-full max-w-2xl"
-            />
+            {!failed.stats ? (
+              <img
+                src="https://github-readme-stats.vercel.app/api?username=Muhammad-Wasil-Ali&show_icons=true&theme=dark&hide_border=true"
+                alt="GitHub Stats"
+                className="w-full max-w-2xl"
+                onError={() => handleImgError("stats")}
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full max-w-2xl p-6 text-center text-gray-300">
+                <p>GitHub Stats image failed to load.</p>
+                <a
+                  href="https://github.com/Muhammad-Wasil-Ali"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline mt-2 block"
+                >
+                  Open GitHub profile
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Stats card 2 */}
           <div className="glass-effect p-6 rounded-xl flex justify-center overflow-x-auto">
-            <img
-              src="https://github-readme-streak-stats.herokuapp.com?user=Muhammad-Wasil-Ali&theme=dark&hide_border=true"
-              alt="GitHub Streak"
-              className="w-full max-w-2xl"
-            />
+            {!failed.streak ? (
+              <img
+                src="https://github-readme-streak-stats.herokuapp.com?user=Muhammad-Wasil-Ali&theme=dark&hide_border=true"
+                alt="GitHub Streak"
+                className="w-full max-w-2xl"
+                onError={() => handleImgError("streak")}
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full max-w-2xl p-6 text-center text-gray-300">
+                <p>Streak stats image failed to load.</p>
+                <a
+                  href="https://github.com/Muhammad-Wasil-Ali"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline mt-2 block"
+                >
+                  Open GitHub profile
+                </a>
+              </div>
+            )}
           </div>
 
           {/* Stats card 3 */}
           <div className="glass-effect p-6 rounded-xl flex justify-center overflow-x-auto">
-            <img
-              src="https://github-readme-stats.vercel.app/api/top-langs/?username=Muhammad-Wasil-Ali&layout=compact&theme=dark&hide_border=true"
-              alt="Top Languages"
-              className="w-full max-w-2xl"
-            />
+            {!failed.toplangs ? (
+              <img
+                src="https://github-readme-stats.vercel.app/api/top-langs/?username=Muhammad-Wasil-Ali&layout=compact&theme=dark&hide_border=true"
+                alt="Top Languages"
+                className="w-full max-w-2xl"
+                onError={() => handleImgError("toplangs")}
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full max-w-2xl p-6 text-center text-gray-300">
+                <p>Top languages image failed to load.</p>
+                <a
+                  href="https://github.com/Muhammad-Wasil-Ali?tab=repositories"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 underline mt-2 block"
+                >
+                  View repositories
+                </a>
+              </div>
+            )}
           </div>
         </motion.div>
 
