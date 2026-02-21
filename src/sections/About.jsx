@@ -1,12 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useInView } from "../hooks/useInView";
 
 const About = () => {
-  const { ref, inView } = useInView({
-    threshold: 0.3,
-    triggerOnce: true,
-  });
+  // Use Framer Motion's built-in `whileInView` + `viewport` on elements
+  // for more reliable mobile triggering. No external in-view hook required.
+  const ref = React.useRef(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -32,16 +30,20 @@ const About = () => {
     <section
       id="about"
       ref={ref}
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
+      className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-black to-gray-900 relative scroll-mt-24"
     >
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500 opacity-5 rounded-full blur-3xl pointer-events-none" />
+      <div className="hidden md:block absolute top-0 right-0 w-72 h-72 md:w-96 md:h-96 bg-blue-500 opacity-5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.25 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { duration: 0.8 } },
+          }}
           className="mb-12"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
@@ -53,7 +55,8 @@ const About = () => {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.25 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start"
         >
           {/* Left - Main content */}
@@ -145,7 +148,8 @@ const About = () => {
         <motion.div
           variants={containerVariants}
           initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.25 }}
           className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-14 mb-16"
         >
           {[
@@ -168,9 +172,13 @@ const About = () => {
 
         {/* Backend Skills Section */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.25 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { duration: 0.8, delay: 0.3 } },
+          }}
           className="mt-16"
         >
           <div className="mb-12">
@@ -187,7 +195,8 @@ const About = () => {
           <motion.div
             variants={containerVariants}
             initial="hidden"
-            animate={inView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
             className="space-y-8"
           >
             {/* Backend Frameworks */}
